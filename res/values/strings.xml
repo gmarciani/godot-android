@@ -7,5 +7,6 @@
     <string name="carId">Car Id</string>
     <string name="listen">Listen</string>
     <string name="approach">Approach</string>
+    <string name="scan">Scan</string>
 
 </resources>

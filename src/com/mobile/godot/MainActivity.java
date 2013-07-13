@@ -1,67 +1,158 @@
 package com.mobile.godot;
 
 import java.io.UnsupportedEncodingException;
+
+import jim.h.common.android.lib.zxing.config.ZXingLibConfig;
+import jim.h.common.android.lib.zxing.integrator.IntentIntegrator;
+import jim.h.common.android.lib.zxing.integrator.IntentResult;
+
 import com.mobile.godot.controller.GodotController;
+import com.mobile.godot.controller.GodotServiceHandler;
+
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	
 	private GodotController godotController;
-	private String myId = "1";
 	
-	private EditText etCarId;
-	private Button btnListen;
-	private Button btnApproach;	
+	private ZXingLibConfig zxingLibConfig;
+	private Handler handler = new Handler();
+	
+	public AlertDialog alertDialogMessageFound;
+	
+	private Button btnScan;
+	
+	private int myId = 1;
+    	
+  	private GodotServiceHandler mHandler = new GodotServiceHandler() {  		
+  		
+  		@Override
+  		public void handleMessageFound() { 
+  			AlertDialog alertDialogMessageFound = buildDialog();
+  			alertDialogMessageFound.show();  			 			
+  		}
+  		
+  		@Override
+  		public void hendleMessageSent() {
+  			Toast.makeText(getApplicationContext(), "Message sent!", Toast.LENGTH_SHORT).show();  			
+  		}
+  		
+  		@Override
+  		public void handleDriverUpdate() {
+  			Toast.makeText(getApplicationContext(), "Now you are the driver!", Toast.LENGTH_SHORT).show();  			
+  		}
+  		
+  		@Override
+  		public void handleListenerError() {
+  			Toast.makeText(getApplicationContext(), "Listener Error!", Toast.LENGTH_SHORT).show();  			
+  		}
+  		
+  		@Override
+  		public void handleApproacherError() {
+  			Toast.makeText(getApplicationContext(), "Approacher Error!", Toast.LENGTH_SHORT).show();  			
+  		}
+  		
+  	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);	
 		
-		godotController = GodotController.getInstance(myId);
+		zxingLibConfig = new ZXingLibConfig();
+        zxingLibConfig.useFrontLight = true;        		
 		
-		etCarId = (EditText) findViewById(R.id.etCarId);
-		btnListen = (Button) findViewById(R.id.btnListen);
-		btnApproach = (Button) findViewById(R.id.btnApproach);
+		btnScan = (Button) findViewById(R.id.btnScan);
 		
-		btnListen.setOnClickListener(new OnClickListener() {
+		btnScan.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {	
 				
-				int status = godotController.listen();
-				Toast.makeText(getApplicationContext(), String.valueOf(status), Toast.LENGTH_SHORT).show();
-								
+				IntentIntegrator.initiateScan(MainActivity.this, zxingLibConfig);
+				
 			}
 			
 		});
 		
-		btnApproach.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {			
-				String carId = etCarId.getText().toString();
-				
-				godotController = GodotController.getInstance(myId);
-				
-				int status = godotController.approach(carId);
-				Toast.makeText(getApplicationContext(), String.valueOf(status), Toast.LENGTH_SHORT).show();
-								
-			}
+		godotController = GodotController.getInstance(mHandler);
+		godotController.listen(myId);
+		
+	}
+	
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case IntentIntegrator.REQUEST_CODE:
+                IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+                
+                if (scanResult == null) {
+                    return;
+                }
+                
+                final String result = scanResult.getContents();
+                
+                if (result != null) {
+                    handler.post(new Runnable() {
+                    	
+                        @Override
+                        public void run() {
+                        	Toast.makeText(getApplicationContext(), "Approaching...", Toast.LENGTH_SHORT).show();
+                        	approach(Integer.parseInt(result));
+                        	
+                        }
+                        
+                    });
+                    
+                }
+                
+                break;
+            default:
+        }
+    }
+	
+	public AlertDialog buildDialog() {
+		
+		AlertDialog dialogMessageFound;
 			
-		});
+		AlertDialog.Builder builderDialogMessageFound = new AlertDialog.Builder(this);
+		builderDialogMessageFound.setTitle("Godot");
+		builderDialogMessageFound.setMessage("Move your car!");
+			
+		builderDialogMessageFound.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			
+	           public void onClick(DialogInterface dialog, int id) {
+	               godotController.pop(myId);
+	           }
+           
+	    });	
+			
+		dialogMessageFound = builderDialogMessageFound.create();
+		
+		return dialogMessageFound;
+	}
+	
+	public void approach(int carId) {
+		
+		godotController.approach(myId, carId);	
 		
 	}
 	
@@ -122,6 +213,16 @@ public class MainActivity extends Activity {
 				e.printStackTrace();
 			}			
 		}
+	}
+	
+	public boolean isNetworkAvailable() {
+	    ConnectivityManager cm = (ConnectivityManager) 
+	      getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+	    if (networkInfo != null && networkInfo.isConnected()) {
+	        return true;
+	    }
+	    return false;
 	}
 	
 	

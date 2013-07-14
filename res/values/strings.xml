@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <!-- General -->
     <string name="app_name">Godot</string>
-    <string name="action_settings">Settings</string>
-    <string name="myId">My Id</string>
-    <string name="carId">Car Id</string>
-    <string name="listen">Listen</string>
-    <string name="approach">Approach</string>
+    
+    <!-- Buttons -->
     <string name="scan">Scan</string>
+    <string name="option">Option</string>
+    <string name="quit">Quit</string>    
+    
+    <!-- Toasts -->
+    <string name = "toast_driver_update">Now you are the driver!</string>
+    <string name = "toast_message_sent">Message sent!</string>
+    <string name = "toast_listener_error">Listener Error!</string>
+    <string name = "toast_approacher_error">Approacher Error!</string>
+    <string name = "toast_approaching">Approaching...</string>
+    <string name = "toast_no_network">No network available</string>
+    <string name = "toast_no_nfc">Your device is not NFC powered</string>
+
+    <!-- Dialogs -->
+    <string name = "dialog_message_found">Move your car!</string>
+    
+    <string name = "dialog_button_ok">OK</string>
+    <string name = "dialog_button_cancel">Cancel</string>
 
 </resources>

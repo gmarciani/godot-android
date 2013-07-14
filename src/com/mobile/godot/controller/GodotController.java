@@ -5,6 +5,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+
+import com.mobile.godot.entity.GodotPushNotificator;
+import com.mobile.godot.entity.GodotServiceHandler;
+
+import android.content.Context;
 import android.os.AsyncTask;
 
 public class GodotController {
@@ -12,7 +17,7 @@ public class GodotController {
 	private static final int GODOT_ACTION_LISTEN = 1;
 	private static final int GODOT_ACTION_POP = 2;
 	private static final int GODOT_ACTION_APPROACH = 3;
-	private static final int GODOT_ACTION_TRANSICTION = 4;
+	private static final int GODOT_ACTION_SYNC_STATE = 4;
 	
 	private static GodotController godotController;	
 	
@@ -28,14 +33,14 @@ public class GodotController {
 	public static final int APPROACHER_STATUS_UNDEFINED = -3;
 	public static final int GODOT_APPROACHER_ERROR = -4;
 
-	private GodotController(GodotServiceHandler mHandler) {
-		this.godotService = new GodotService(mHandler);
+	private GodotController(Context context, GodotServiceHandler mHandler) {
+		this.godotService = new GodotService(context, mHandler);
 		this.godotService.execute(new String[]{});
 	}
 	
-	public static synchronized GodotController getInstance(GodotServiceHandler mHandler) {
+	public static synchronized GodotController getInstance(Context context, GodotServiceHandler mHandler) {
 		if (godotController == null) {
-			godotController = new GodotController(mHandler);
+			godotController = new GodotController(context, mHandler);
 		}
 		
 		return godotController;
@@ -44,46 +49,35 @@ public class GodotController {
 	public synchronized void listen(int myId) {
 		this.godotService.setMyId(myId);
 		this.godotService.setAction(GODOT_ACTION_LISTEN);
-		//this.godotListener.setListenerActiveStatus(true);
-		//this.godotListener.execute(new String[] {myId});
-		//this.godotListener.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new String[] {myId});
 	}
 	
 	public synchronized void pop(int myId) {	
 		this.godotService.setMyId(myId);
 		this.godotService.setAction(GODOT_ACTION_POP);
-		//this.godotPopper.setPopperActiveStatus(true);
-		//this.godotPopper.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new String[] {myId});
-		//this.godotPopper.execute(new String[] {myId});
-		//Popper mPopper = new Popper(myId);
-		//mPopper.start();
-		//this.resumeListener();
 	}
 	
 	public synchronized void approach(int myId, int carId) {
 		this.godotService.setMyId(myId);
 		this.godotService.setCarId(carId);
 		this.godotService.setAction(GODOT_ACTION_APPROACH);
-		//this.godotApproacher.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new String[] {myId, carId});
-		//this.godotApproacher.execute(new String[] {myId, carId});
-		//Approacher mApproacher = new Approacher(this.mHandler, myId, carId);
-		//mApproacher.start();
 	}
 	
 	public synchronized void waitForInput() {
-		this.godotService.setAction(GODOT_ACTION_TRANSICTION);
+		this.godotService.setAction(GODOT_ACTION_SYNC_STATE);
 	}
 	
 	private class GodotService extends AsyncTask<String, Void, Void> {
 
 		private GodotServiceHandler mHandler;
+		private GodotPushNotificator mNotificator;
 		
 		private int action;
 		private int myId = -1;
 		private int carId = -1;
 		
-		public GodotService(GodotServiceHandler mHandler) {
+		public GodotService(Context context, GodotServiceHandler mHandler) {
 			this.mHandler = mHandler;
+			this.mNotificator = GodotPushNotificator.getInstance(context);
 		}
 		
 		@Override
@@ -125,8 +119,9 @@ public class GodotController {
 						if (this.mHandler.hasMessages(GODOT_MESSAGE_FOUND)) {
 							break;
 						}						
-						this.mHandler.obtainMessage(GODOT_MESSAGE_FOUND).sendToTarget();	
-						this.setAction(GODOT_ACTION_TRANSICTION);
+						this.mHandler.obtainMessage(GODOT_MESSAGE_FOUND).sendToTarget();
+						this.mNotificator.pushNotification(GodotPushNotificator.GODOT_PUSH_NOTIFICATION_MOVE_CAR);
+						this.setAction(GODOT_ACTION_SYNC_STATE);
 						break;
 					case 200:
 						this.mHandler.obtainMessage(GODOT_MESSAGE_NOT_FOUND).sendToTarget();
@@ -203,8 +198,8 @@ public class GodotController {
 					this.setAction(GODOT_ACTION_LISTEN);
 					
 					break;
-				case GODOT_ACTION_TRANSICTION:
-					while(this.getAction() == GODOT_ACTION_TRANSICTION) {
+				case GODOT_ACTION_SYNC_STATE:
+					while(this.getAction() == GODOT_ACTION_SYNC_STATE) {
 						//
 					}
 					

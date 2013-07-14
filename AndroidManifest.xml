@@ -1,67 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version = "1.0" encoding = "utf-8"?>
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    
-    package="com.mobile.godot"
-    android:versionCode="1"
-    android:versionName="1.0" >
+<manifest xmlns:android = "http://schemas.android.com/apk/res/android"
+    package = "com.mobile.godot"
+    android:versionCode = "1"
+    android:versionName = "1.0" >
 
-    <uses-sdk
-        android:minSdkVersion = "16"
-        android:targetSdkVersion = "17" />
-    
+    <uses-sdk android:minSdkVersion = "16" android:targetSdkVersion = "17" />
+
     <uses-permission android:name = "android.permission.INTERNET" />
-    
+    <uses-permission android:name = "android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name = "android.permission.NFC" />
-    
-    <uses-permission android:name = "android.permission.CAMERA"/>
+    <uses-permission android:name = "android.permission.CAMERA" />
+
     <uses-feature android:name = "android.hardware.camera" />
-	<uses-feature android:name = "android.hardware.camera.autofocus" />
-	<uses-permission android:name = "android.permission.VIBRATE" />
-	<uses-permission android:name = "android.permission.FLASHLIGHT" />
-	<uses-permission android:name = "android.permission.WRITE_EXTERNAL_STORAGE" />	
+    <uses-feature android:name = "android.hardware.camera.autofocus" />
+
+    <uses-permission android:name = "android.permission.VIBRATE" />
+    <uses-permission android:name = "android.permission.FLASHLIGHT" />
+    <uses-permission android:name = "android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        
         android:allowBackup = "true"
         android:icon = "@drawable/ic_launcher"
         android:label = "@string/app_name"
         android:theme = "@style/AppTheme" >
         
         <activity
-            android:name = "com.mobile.godot.MainActivity"
-            android:label = "@string/app_name" >
+            android:name = "com.mobile.godot.activity.LaunchActivity"
+            android:configChanges = "orientation|keyboardHidden|screenSize"
+            android:label = "@string/app_name"
+            android:theme = "@style/FullscreenTheme" >
             
             <intent-filter>
                 <action android:name = "android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name = "android.intent.category.LAUNCHER" />
             </intent-filter>
             
             <intent-filter>
-    			<action android:name = "android.nfc.action.NDEF_DISCOVERED"/>
-    			<category android:name = "android.intent.category.DEFAULT"/>
-   				<data android:mimeType = "text/plain" />
-			</intent-filter>
+                <action android:name = "android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name = "android.intent.category.DEFAULT" />
+                <data android:mimeType = "text/plain" />
+            </intent-filter>
             
         </activity>
         
-        <activity 
+        <activity
             android:name = "jim.h.common.android.lib.zxing.CaptureActivity"
-			android:screenOrientation = "landscape"
-			android:configChanges = "orientation|keyboardHidden"
-			android:theme = "@android:style/Theme.NoTitleBar.Fullscreen"
-			android:windowSoftInputMode = "stateAlwaysHidden">
+            android:configChanges = "orientation|keyboardHidden"
+            android:screenOrientation = "landscape"
+            android:theme = "@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode = "stateAlwaysHidden" >
             
-			<intent-filter>
-				<action android:name = "android.intent.action.MAIN"/>
-				<category android:name = "android.intent.category.DEFAULT"/>
-			</intent-filter>
-			
-			<intent-filter>
-			    <action android:name = "com.google.zxing.client.android.SCAN"/>
-				<category android:name="android.intent.category.DEFAULT"/>
-			</intent-filter>
-			
-		</activity>
+            <intent-filter>
+                <action android:name = "android.intent.action.MAIN" />
+                <category android:name = "android.intent.category.DEFAULT" />
+            </intent-filter>
+            
+            <intent-filter>
+                <action android:name = "com.google.zxing.client.android.SCAN" />
+                <category android:name = "android.intent.category.DEFAULT" />
+            </intent-filter>           
+            
+        </activity>       
         
     </application>
 

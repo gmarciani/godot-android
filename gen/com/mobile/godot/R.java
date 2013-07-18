@@ -40,32 +40,37 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_vertical_margin=0x7f080001;
     }
     public static final class drawable {
-        public static final int godot_logo_giac=0x7f020000;
-        public static final int ic_godot=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int zxinglib_icon=0x7f020003;
+        public static final int godot_logo=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+        public static final int zxinglib_icon=0x7f020002;
     }
     public static final class id {
         /**  Messages IDs 
          */
         public static final int auto_focus=0x7f060000;
-        public static final int button_option=0x7f060009;
-        public static final int button_quit=0x7f06000a;
-        public static final int button_scan=0x7f060008;
+        public static final int button_login=0x7f06000a;
+        public static final int button_logout=0x7f06000f;
+        public static final int button_manage=0x7f06000e;
+        public static final int button_scan=0x7f06000d;
         public static final int decode=0x7f060001;
         public static final int decode_failed=0x7f060002;
         public static final int decode_succeeded=0x7f060003;
-        public static final int fullscreen_content=0x7f060006;
-        public static final int fullscreen_content_controls=0x7f060007;
+        public static final int et_password=0x7f060009;
+        public static final int et_username=0x7f060008;
+        public static final int fullscreen_content=0x7f06000b;
+        public static final int fullscreen_content_controls=0x7f06000c;
+        public static final int fullscreen_content_login=0x7f060007;
+        public static final int fullscreen_content_logo=0x7f060006;
         public static final int quit=0x7f060004;
         public static final int return_scan_result=0x7f060005;
-        public static final int zxinglib_preview_view=0x7f06000b;
-        public static final int zxinglib_status_view=0x7f06000d;
-        public static final int zxinglib_viewfinder_view=0x7f06000c;
+        public static final int zxinglib_preview_view=0x7f060010;
+        public static final int zxinglib_status_view=0x7f060012;
+        public static final int zxinglib_viewfinder_view=0x7f060011;
     }
     public static final class layout {
-        public static final int activity_launch=0x7f030000;
-        public static final int zxinglib_capture=0x7f030001;
+        public static final int activity_launcher=0x7f030000;
+        public static final int activity_main=0x7f030001;
+        public static final int zxinglib_capture=0x7f030002;
     }
     public static final class raw {
         public static final int zxinglib_beep=0x7f040000;
@@ -73,28 +78,39 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class string {
         /**  General 
          */
-        public static final int app_name=0x7f070004;
-        public static final int dialog_button_cancel=0x7f070011;
-        public static final int dialog_button_ok=0x7f070010;
+        public static final int app_name=0x7f070002;
+        public static final int dialog_approaching=0x7f070017;
+        public static final int dialog_button_cancel=0x7f070019;
+        public static final int dialog_button_ok=0x7f070018;
         /**  Dialogs 
          */
-        public static final int dialog_message_found=0x7f07000f;
-        public static final int dummy_button=0x7f070002;
-        public static final int dummy_content=0x7f070003;
-        public static final int option=0x7f070006;
-        public static final int quit=0x7f070007;
+        public static final int dialog_message_found=0x7f070016;
+        public static final int godot_logo=0x7f07001a;
+        public static final int login=0x7f070006;
+        public static final int logout=0x7f070007;
+        public static final int manage=0x7f070005;
+        public static final int password=0x7f070009;
         /**  Buttons 
          */
-        public static final int scan=0x7f070005;
-        public static final int toast_approacher_error=0x7f07000b;
-        public static final int toast_approaching=0x7f07000c;
+        public static final int scan=0x7f070004;
+        public static final int service_name=0x7f070003;
+        public static final int toast_access_denied=0x7f07000b;
+        public static final int toast_approacher_error=0x7f070010;
+        public static final int toast_approaching=0x7f070011;
+        public static final int toast_driver_update=0x7f07000d;
+        public static final int toast_listener_error=0x7f07000f;
+        public static final int toast_loading_personal_data=0x7f07000c;
+        public static final int toast_logging_out=0x7f070014;
         /**  Toasts 
          */
-        public static final int toast_driver_update=0x7f070008;
-        public static final int toast_listener_error=0x7f07000a;
-        public static final int toast_message_sent=0x7f070009;
-        public static final int toast_no_network=0x7f07000d;
-        public static final int toast_no_nfc=0x7f07000e;
+        public static final int toast_login_wrong_syntax=0x7f07000a;
+        public static final int toast_message_sent=0x7f07000e;
+        public static final int toast_no_network=0x7f070012;
+        public static final int toast_no_nfc=0x7f070013;
+        public static final int toast_registration_success=0x7f070015;
+        /**  EditText Hints 
+         */
+        public static final int username=0x7f070008;
         public static final int zxinglib_app_name=0x7f070000;
         public static final int zxinglib_msg_default_status=0x7f070001;
     }
@@ -116,8 +132,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int AppTheme=0x7f090001;
         public static final int ButtonBar=0x7f090003;
         public static final int ButtonBarButton=0x7f090004;
-        public static final int FullscreenActionBarStyle=0x7f090005;
+        public static final int FullscreenActionBarStyle=0x7f090006;
         public static final int FullscreenTheme=0x7f090002;
+        public static final int LoginFormContainer=0x7f090005;
     }
     public static final class styleable {
         /** Attributes that can be used with a ButtonBarContainerTheme.

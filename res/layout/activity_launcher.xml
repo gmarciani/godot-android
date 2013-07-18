@@ -1,0 +1,67 @@
+<FrameLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:layout_width = "match_parent"
+    android:layout_height = "match_parent"
+    android:background = "#004455"
+    tools:context = ".LauncherActivity" >
+    
+    <ImageView
+        android:id = "@+id/fullscreen_content_logo"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:layout_gravity = "center_vertical|center_horizontal"
+        android:contentDescription = "@string/godot_logo"
+        android:gravity = "center"
+        android:keepScreenOn = "true"
+        android:src = "@drawable/godot_logo" />
+
+    <FrameLayout
+        android:layout_width = "match_parent"
+        android:layout_height = "match_parent"
+        android:fitsSystemWindows = "true" >
+
+        <LinearLayout
+            android:id = "@+id/fullscreen_content_login"
+            style = "?buttonBarStyle"
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:layout_gravity = "bottom|center_horizontal"
+            android:background = "@color/black_overlay"
+            android:orientation = "vertical"
+            tools:ignore = "UselessParent" >
+
+            <EditText
+                android:id="@+id/et_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:hint="@string/username"
+                android:inputType="text"
+                android:typeface="monospace" />
+            
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:typeface="monospace" />
+            
+            <Button
+                android:id="@+id/button_login"
+                style="?buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:text="@string/login"
+                android:typeface="monospace" />
+            
+        </LinearLayout>        
+
+    </FrameLayout>
+
+</FrameLayout>

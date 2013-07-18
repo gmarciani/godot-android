@@ -1,0 +1,64 @@
+<FrameLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:layout_width = "match_parent"
+    android:layout_height = "match_parent"
+    android:background = "#004455"
+    tools:context = ".MainActivity" >
+
+    <ImageView
+        android:id = "@+id/fullscreen_content"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:layout_gravity = "center_vertical|center_horizontal"
+        android:contentDescription = "@string/godot_logo"
+        android:gravity = "center"
+        android:keepScreenOn = "true"
+        android:src = "@drawable/godot_logo" />
+
+    <FrameLayout
+        android:layout_width = "match_parent"
+        android:layout_height = "match_parent"
+        android:fitsSystemWindows = "true" >
+
+        <LinearLayout
+            android:id = "@+id/fullscreen_content_controls"
+            style = "?buttonBarStyle"
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:layout_gravity = "bottom|center_horizontal"
+            android:background = "@color/black_overlay"
+            android:orientation = "horizontal"
+            tools:ignore = "UselessParent" >
+
+            <Button
+                android:id="@+id/button_scan"
+                style="?buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/scan"
+                android:typeface="monospace" />
+            
+            <Button
+                android:id="@+id/button_manage"
+                style="?buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/manage"
+                android:typeface="monospace" />
+            
+            <Button
+                android:id="@+id/button_logout"
+                style="?buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/logout"
+                android:typeface="monospace" />
+            
+        </LinearLayout>        
+
+    </FrameLayout>
+
+</FrameLayout>

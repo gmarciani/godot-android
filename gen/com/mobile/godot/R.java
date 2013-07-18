@@ -79,38 +79,42 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /**  General 
          */
         public static final int app_name=0x7f070002;
-        public static final int dialog_approaching=0x7f070017;
-        public static final int dialog_button_cancel=0x7f070019;
-        public static final int dialog_button_ok=0x7f070018;
+        public static final int dialog_approaching=0x7f070019;
+        public static final int dialog_button_cancel=0x7f07001b;
+        public static final int dialog_button_ok=0x7f07001a;
         /**  Dialogs 
          */
-        public static final int dialog_message_found=0x7f070016;
-        public static final int godot_logo=0x7f07001a;
-        public static final int login=0x7f070006;
-        public static final int logout=0x7f070007;
-        public static final int manage=0x7f070005;
-        public static final int password=0x7f070009;
+        public static final int dialog_message_found=0x7f070018;
+        public static final int godot_logo=0x7f07001c;
+        public static final int godot_service=0x7f070005;
+        /**  Services 
+         */
+        public static final int godot_service_listener=0x7f070004;
+        public static final int login=0x7f070008;
+        public static final int logout=0x7f070009;
+        public static final int manage=0x7f070007;
+        public static final int password=0x7f07000b;
         /**  Buttons 
          */
-        public static final int scan=0x7f070004;
+        public static final int scan=0x7f070006;
         public static final int service_name=0x7f070003;
-        public static final int toast_access_denied=0x7f07000b;
-        public static final int toast_approacher_error=0x7f070010;
-        public static final int toast_approaching=0x7f070011;
-        public static final int toast_driver_update=0x7f07000d;
-        public static final int toast_listener_error=0x7f07000f;
-        public static final int toast_loading_personal_data=0x7f07000c;
-        public static final int toast_logging_out=0x7f070014;
+        public static final int toast_access_denied=0x7f07000d;
+        public static final int toast_approacher_error=0x7f070012;
+        public static final int toast_approaching=0x7f070013;
+        public static final int toast_driver_update=0x7f07000f;
+        public static final int toast_listener_error=0x7f070011;
+        public static final int toast_loading_personal_data=0x7f07000e;
+        public static final int toast_logging_out=0x7f070016;
         /**  Toasts 
          */
-        public static final int toast_login_wrong_syntax=0x7f07000a;
-        public static final int toast_message_sent=0x7f07000e;
-        public static final int toast_no_network=0x7f070012;
-        public static final int toast_no_nfc=0x7f070013;
-        public static final int toast_registration_success=0x7f070015;
+        public static final int toast_login_wrong_syntax=0x7f07000c;
+        public static final int toast_message_sent=0x7f070010;
+        public static final int toast_no_network=0x7f070014;
+        public static final int toast_no_nfc=0x7f070015;
+        public static final int toast_registration_success=0x7f070017;
         /**  EditText Hints 
          */
-        public static final int username=0x7f070008;
+        public static final int username=0x7f07000a;
         public static final int zxinglib_app_name=0x7f070000;
         public static final int zxinglib_msg_default_status=0x7f070001;
     }

@@ -11,7 +11,7 @@ import java.util.List;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.mobile.godot.core.service.message.GodotMessage;
-import com.mobile.godot.core.service.message.GodotServiceHandler;
+import com.mobile.godot.core.service.message.GodotCoreHandler;
 import com.mobile.godot.util.GodotURLUtils;
 
 import android.util.SparseIntArray;
@@ -21,9 +21,9 @@ public class GodotAction implements Runnable {
 	private String mServlet;
 	private List<BasicNameValuePair> mParams;
 	private SparseIntArray mMessageMap;
-	private GodotServiceHandler mHandler;	
+	private GodotCoreHandler mHandler;	
 
-	public GodotAction(String mServlet, List<BasicNameValuePair> mParams, SparseIntArray mMessageMap, GodotServiceHandler mHandler) {
+	public GodotAction(String mServlet, List<BasicNameValuePair> mParams, SparseIntArray mMessageMap, GodotCoreHandler mHandler) {
 		this.mServlet = mServlet;
 		this.mParams = mParams;
 		this.mMessageMap = mMessageMap;

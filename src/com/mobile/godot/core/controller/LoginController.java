@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.http.message.BasicNameValuePair;
 import com.mobile.godot.core.model.LoginBean;
 import com.mobile.godot.core.service.message.GodotMessage;
-import com.mobile.godot.core.service.message.GodotServiceHandler;
+import com.mobile.godot.core.service.message.GodotCoreHandler;
 import com.mobile.godot.core.service.task.GodotAction;
 
 import android.content.Context;
@@ -17,13 +17,13 @@ public class LoginController {
 	
 	private static LoginController godotController;	
 	
-	private static GodotServiceHandler mHandler;
+	private static GodotCoreHandler mHandler;
 
-	private LoginController(Context mContext, GodotServiceHandler mHandler) {}
+	private LoginController(Context mContext, GodotCoreHandler mHandler) {}
 	
 	private LoginController() {}
 	
-	public static synchronized LoginController getInstance(Context context, GodotServiceHandler handler) {
+	public static synchronized LoginController getInstance(Context context, GodotCoreHandler handler) {
 		if (godotController == null) {
 			godotController = new LoginController();
 		}

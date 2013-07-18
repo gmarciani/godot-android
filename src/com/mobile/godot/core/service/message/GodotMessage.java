@@ -44,6 +44,10 @@ public final class GodotMessage {
 		
 		public static final int COOWNER_REMOVED = 204;
 		
+		public static final int CAR_BY_DRIVER_FOUND = 205;
+		
+		public static final int CARS_BY_OWNER_FOUND = 206;
+		
 	}
 	
 	public static final class Core {
@@ -68,15 +72,21 @@ public final class GodotMessage {
 		
 		private Error() {}
 		
-		public static final int UNAUTHORIZED = 401;		
+		public static final int UNAUTHORIZED = 401;	
 		
-		public static final int SERVER_ERROR = 402;
+		public static final int UNACCEPTABLE = 402;	
 		
-		public static final int REDIRECTION_ERROR = 403;
+		public static final int CONFLICT = 403;	
 		
-		public static final int QRCODE_ERROR = 404;
+		public static final int NOT_FOUND = 404;	
 		
-		public static final int NFC_ERROR = 405;	
+		public static final int SERVER_ERROR = 405;
+		
+		public static final int REDIRECTION_ERROR = 406;
+		
+		public static final int QRCODE_ERROR = 407;
+		
+		public static final int NFC_ERROR = 408;	
 		
 	}
 

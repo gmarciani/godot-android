@@ -8,8 +8,9 @@ import com.mobile.godot.core.GodotPreference;
 import com.mobile.godot.core.controller.LoginController;
 import com.mobile.godot.core.model.LoginBean;
 import com.mobile.godot.core.model.UserBean;
+import com.mobile.godot.core.service.intent.GodotIntent;
 import com.mobile.godot.core.service.intent.GodotIntentExtra;
-import com.mobile.godot.core.service.message.GodotServiceHandler;
+import com.mobile.godot.core.service.message.GodotCoreHandler;
 import com.mobile.godot.util.ui.SystemUiHider;
 
 import android.annotation.TargetApi;
@@ -37,16 +38,10 @@ public class LauncherActivity extends Activity {
 	private static boolean AUTO_LOGIN = true;
 	
 	//Preferences
-	private SharedPreferences mPref;	
-	public static final String MY_PREF = "com.mobile.godot.pref";
-	public static final String MY_PREF_LOGIN = "com.mobile.godot.login";
-	
-	//Extras
-	public static final String MY_EXTRA_USER = "com.mobile.godot.extra.user";
-	
+	private SharedPreferences mPref;
+		
 	//Fullscreen UI Management Constants
 	private static final boolean AUTO_HIDE = true;
-	//private static final int SHORT_AUTO_HIDE_DELAY_MILLIS = 100;
 	private static final int AUTO_HIDE_DELAY_MILLIS = 5000;
 	private static final int LONG_AUTO_HIDE_DELAY_MILLIS = 10000;
 	private static final boolean TOGGLE_ON_CLICK = true;
@@ -74,6 +69,7 @@ public class LauncherActivity extends Activity {
 		
 		@Override
 		public void onClick(View v) {
+			
 			String username = etUsername.getText().toString();
 			String password = etPassword.getText().toString();
 			
@@ -83,10 +79,13 @@ public class LauncherActivity extends Activity {
 			
 			login(loginBean);			
 		}
+		
 	};	
 	
 	//Touch Listener
+	
 	View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+		
 		@Override
 		public boolean onTouch(View view, MotionEvent motionEvent) {
 			if (AUTO_HIDE) {
@@ -94,6 +93,7 @@ public class LauncherActivity extends Activity {
 			}
 			return false;
 		}
+		
 	};
 	
 	//Text Watcher
@@ -133,9 +133,9 @@ public class LauncherActivity extends Activity {
 		}
 		
 	};
-	
+		
 	//Handler
-	private GodotServiceHandler mHandler = new GodotServiceHandler() {
+	private GodotCoreHandler mHandler = new GodotCoreHandler() {
 		
 		@Override
 		public void handleRegistered(Message mMessage) {
@@ -157,14 +157,14 @@ public class LauncherActivity extends Activity {
 				}
 				
 				UserBean loggedUserBean = new UserBean().fromJSON(jObj);
-				setCachedUser(loggedUserBean);
+				//setCachedUser(loggedUserBean);
 				
 				LoginBean loginBean = new LoginBean()
 				.setUsername(loggedUserBean.getUsername())
 				.setPassword(loggedUserBean.getPassword());				
 				setCachedLogin(loginBean);
 				
-				Toast.makeText(getApplicationContext(), R.string.toast_loading_personal_data, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), R.string.toast_loading_personal_data, Toast.LENGTH_SHORT).show();		
 				
 				goToMain(loggedUserBean);
 			}							
@@ -175,7 +175,7 @@ public class LauncherActivity extends Activity {
 			Toast.makeText(getApplicationContext(), R.string.toast_access_denied, Toast.LENGTH_SHORT).show();			
 		}
 		
-	};		
+	};	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -197,8 +197,8 @@ public class LauncherActivity extends Activity {
 		
 		this.loginController = LoginController.getInstance(this.getApplicationContext(), this.mHandler);
 		
-		Intent intentLogout = this.getIntent();
-		boolean loginMode = intentLogout.getBooleanExtra(GodotIntentExtra.EXTRA_LOGIN_MODE, true);
+		Intent intentBackToLogin = this.getIntent();
+		boolean loginMode = intentBackToLogin.getBooleanExtra(GodotIntentExtra.EXTRA_LOGIN_MODE, true);
 		this.setAutoLogin(loginMode);
 	}
 	
@@ -224,22 +224,17 @@ public class LauncherActivity extends Activity {
 	}
 	
 	private LoginBean getCachedLogin() {
+		LoginBean login = null;
 		
 		this.mPref = getSharedPreferences(GodotPreference.PREF, MODE_PRIVATE);
 		
 		String JSONString = this.mPref.getString(GodotPreference.LOGIN, null);
 		
 		if (JSONString != null) {
-			try {
-				JSONObject jObj = new JSONObject(JSONString);
-				LoginBean loginBean = new LoginBean().fromJSON(jObj);
-				return loginBean;
-			} catch (JSONException exc) {
-				return null;
-			}
-		} else {
-			return null;
+			login = new LoginBean().fromJSONString(JSONString);
 		}
+		
+		return login;
 	}
 	
 	private void setCachedLogin(LoginBean loginBean) {	
@@ -254,7 +249,7 @@ public class LauncherActivity extends Activity {
 	    
 	    editor.commit();
 	}
-	
+	/*
 	private void setCachedUser(UserBean userBean) {	
 		
 		String JSONString = userBean.toJSONString();
@@ -266,7 +261,7 @@ public class LauncherActivity extends Activity {
 		editor.putString(GodotPreference.USER, JSONString);
 	    
 	    editor.commit();
-	}
+	}*/
 	
 	private void login(LoginBean loginBean) {
 		String username = loginBean.getUsername();
@@ -281,10 +276,11 @@ public class LauncherActivity extends Activity {
 	
 	private void goToMain(UserBean userBean) {
 		Intent intentLoggedUser = new Intent(this, MainActivity.class);
-		intentLoggedUser.putExtra(GodotIntentExtra.EXTRA_USER, userBean.toJSONString());
+		intentLoggedUser.setAction(GodotIntent.Session.LOGIN);
+		intentLoggedUser.putExtra(GodotIntentExtra.EXTRA_USER, userBean);
 		this.startActivity(intentLoggedUser);
-		this.finish();
-	}	
+		
+	}
 	
 	private void initializeFullScreenMode() {		
 		final View contentView = findViewById(R.id.fullscreen_content_logo);
@@ -340,4 +336,5 @@ public class LauncherActivity extends Activity {
 		mHideHandler.removeCallbacks(mHideRunnable);
 		mHideHandler.postDelayed(mHideRunnable, delayMillis);
 	}
+	
 }

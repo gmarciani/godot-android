@@ -14,6 +14,8 @@ public final class GodotIntentExtra {
 	
 	public static final String EXTRA_USER = "com.mobile.godot.extra.USER";
 	
+	public static final String EXTRA_USERNAME = "com.mobile.godot.extra.USERNAME";
+	
 	public static final String EXTRA_LOGIN_MODE = "com.mobile.godot.extra.LOGIN_MODE";
 
 }

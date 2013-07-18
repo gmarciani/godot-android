@@ -4,6 +4,10 @@
     <!-- General -->
     <string name="app_name">Godot</string>
     <string name="service_name">GodotService</string>
+    
+    <!-- Services -->
+    <string name="godot_service_listener">Godot Listener</string>
+    <string name="godot_service">Godot Services</string>
 
     <!-- Buttons -->
     <string name="scan">Scan</string>

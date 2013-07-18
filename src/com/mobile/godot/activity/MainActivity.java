@@ -6,12 +6,14 @@ import jim.h.common.android.lib.zxing.integrator.IntentResult;
 
 import com.mobile.godot.R;
 import com.mobile.godot.core.GodotPreference;
-import com.mobile.godot.core.controller.GodotController;
-import com.mobile.godot.core.model.LoginBean;
+import com.mobile.godot.core.controller.CoreController;
 import com.mobile.godot.core.model.UserBean;
+import com.mobile.godot.core.service.GodotListenerService;
+import com.mobile.godot.core.service.broadcast.GodotListenerBroadcastReceiver;
+import com.mobile.godot.core.service.intent.GodotIntent;
 import com.mobile.godot.core.service.intent.GodotIntentExtra;
-import com.mobile.godot.core.service.message.GodotPushNotificator;
-import com.mobile.godot.core.service.message.GodotServiceHandler;
+import com.mobile.godot.core.service.intent.GodotIntentResult;
+import com.mobile.godot.core.service.message.GodotCoreHandler;
 import com.mobile.godot.util.ui.SystemUiHider;
 
 import android.annotation.TargetApi;
@@ -22,6 +24,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -41,7 +44,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	
 	//Controller
-	private GodotController godotController;
+	private CoreController controller;
 	
 	//Preferences
 	private SharedPreferences mPref;
@@ -108,6 +111,23 @@ public class MainActivity extends Activity {
 	};
 	
 	//Alert Dialog Click Listener	
+	private class MessageFoundClickListener implements DialogInterface.OnClickListener {
+		
+		private String mUsername;
+		
+		public MessageFoundClickListener(String username) {
+			this.mUsername = username;
+		}
+				
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			
+   			controller.pop(this.mUsername);
+   			
+		}
+		
+	}
+	
 	private class ConfirmApproachClickListener implements DialogInterface.OnClickListener {
 		
 		private String username;
@@ -121,7 +141,7 @@ public class MainActivity extends Activity {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
    			Toast.makeText(getApplicationContext(), R.string.toast_approaching, Toast.LENGTH_LONG).show();
-   			godotController.approach(this.username, this.carName);			
+   			controller.approach(this.username, this.carName);			
 		}
 		
 	}
@@ -149,9 +169,9 @@ public class MainActivity extends Activity {
 		}
 		
 	};
-		
-	//Service Message Handler
-	private GodotServiceHandler mHandler = new GodotServiceHandler() {  		
+	
+	//Handler
+	private GodotCoreHandler mHandler = new GodotCoreHandler() {  		
   		
   		@Override
   		public void handleMessageFound(Message mMessage) {  	
@@ -170,6 +190,21 @@ public class MainActivity extends Activity {
   		}
   		
   	};
+  	
+  	private class ListenerBroadcast extends GodotListenerBroadcastReceiver {
+  		
+  		public ListenerBroadcast() {
+  			super();
+  		}
+  		
+  		@Override
+		public void handleMessageFound() {
+			alertDialogMessageFound.show(); 
+		}
+  		
+  	}
+  	
+  	ListenerBroadcast mGodotListenerReceiver = new ListenerBroadcast();
 
   	//User Variables
 	private UserBean userBean;
@@ -183,7 +218,7 @@ public class MainActivity extends Activity {
 		this.initializeFullScreenMode();
 		
 		this.setUser(this.getLoggedUser());
-		
+				
 		this.refreshActionBar(this.getUser());
 		
 		this.getPreference();
@@ -202,37 +237,59 @@ public class MainActivity extends Activity {
 		
 		buttonScan.setOnTouchListener(mDelayHideTouchListener);
 		buttonManage.setOnTouchListener(mDelayHideTouchListener);
-		buttonLogout.setOnTouchListener(mDelayHideTouchListener);
-		
-		godotController = GodotController.getInstance(getApplicationContext(), mHandler);
-		
-		notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		buttonLogout.setOnTouchListener(mDelayHideTouchListener);			
+						
+		Intent service = new Intent(this, GodotListenerService.class);
+		service.setAction(GodotIntent.Core.LISTEN);
+		service.putExtra(GodotIntentExtra.EXTRA_USERNAME, this.getUser().getUsername());
+		this.startService(service);
 		
 		alertDialogMessageFound = buildDialogMessageFound();
 		
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		this.controller = CoreController.getInstance(this.mHandler);
+		
+		IntentFilter filterListener = new IntentFilter();
+		filterListener.addAction(GodotIntentResult.Core.MESSAGE_FOUND);		
+		
+		this.registerReceiver(mGodotListenerReceiver, filterListener);
+		
+		handleNetworkAvailability();
+		
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		
+		this.unregisterReceiver(mGodotListenerReceiver);
+	}	
+	
 	private UserBean getLoggedUser() {
 		UserBean loggedUser = null;
 		
 		Intent intentLoggedUser = this.getIntent();
-		String JSONString = intentLoggedUser.getStringExtra(LauncherActivity.MY_EXTRA_USER);
+		if (intentLoggedUser.getAction().equals(GodotIntent.Session.LOGIN)) {
+			loggedUser = (UserBean) intentLoggedUser.getSerializableExtra(GodotIntentExtra.EXTRA_USER);
+		}			
 		
-		if (JSONString != null) {
-			
-			loggedUser = new UserBean().fromJSONString(JSONString);
-			
-		} else {
-			
-			loggedUser = this.getCachedUser();
-			
+		if (loggedUser == null) {
+			this.logout();
+			//loggedUser = this.getCachedUser();
 		}
-		
+				
 		return loggedUser;
 	}
-	
+	/*
 	private UserBean getCachedUser() {
 		UserBean loggedUser = null;
+		
+		System.out.println("@@@@@@@@@@@CAHCHED USER @@@@@@@@@@@@@");
 		
 		this.mPref = getSharedPreferences(GodotPreference.PREF, MODE_PRIVATE);
 		
@@ -242,9 +299,9 @@ public class MainActivity extends Activity {
 			
 			loggedUser = new UserBean().fromJSONString(JSONString);
 		} 
-		
+				
 		return loggedUser;
-	}
+	}*/
 
 	private UserBean getUser() {
 		return this.userBean;
@@ -276,36 +333,6 @@ public class MainActivity extends Activity {
 	public void initializeZxing() {
 		zxingLibConfig = new ZXingLibConfig();
         zxingLibConfig.useFrontLight = true;
-	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-		
-		handlePushNotification();
-		
-		if (handleNetworkAvailability()) {
-			this.godotController.startListener(this.getUser().getUsername());
-		}
-		
-		/*if (isNfcAvailable()) {
-			Intent intent = getIntent();
-			NdefMessage msgs[];
-			
-			if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
-				Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-				if (rawMsgs != null) {
-					msgs = new NdefMessage[rawMsgs.length];
-					for (int i = 0; i < rawMsgs.length; i++) {
-						msgs[i] = (NdefMessage) rawMsgs[i];
-					}
-					       
-					for (int i = 0; i < msgs.length; i++) {
-						showGodotMessage(msgs[i]);										
-					}
-				}
-			}			
-		}*/
 	}
 	
 	@Override
@@ -345,7 +372,7 @@ public class MainActivity extends Activity {
 	protected void onStop() {
 		super.onStop();
 		
-		savePreference();
+		savePreference();		
 	}
 		
 	private void scan() {			
@@ -362,36 +389,14 @@ public class MainActivity extends Activity {
 	}
 	
 	private void logout() {		
+		
 		Toast.makeText(getApplicationContext(), R.string.toast_logging_out, Toast.LENGTH_SHORT).show();
-		
-		LoginBean login = new LoginBean()
-		.setUsername(getUser().getUsername())
-		.setPassword(getUser().getPassword());
-		
-		this.godotController.logout(login);
 		
 		Intent intentLogout = new Intent(this, LauncherActivity.class);
 		intentLogout.putExtra(GodotIntentExtra.EXTRA_LOGIN_MODE, false);
 		this.startActivity(intentLogout);
+		
 	}	
-	
-	private void handlePushNotification() {		
-		notificationManager.cancel(GodotPushNotificator.GODOT_PUSH_NOTIFICATION_MOVE_CAR);
-	}
-	
-	/*private void showGodotMessage(NdefMessage msg) {
-		for (NdefRecord record : msg.getRecords()) {
-			byte data[] = record.getPayload();
-			String str;
-			try {
-				str = new String(data, "UTF-8");
-				Toast toast = Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG);
-				toast.show();
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}			
-		}
-	}*/
 	
 	private boolean isNetworkAvailable() {
 	    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -500,15 +505,7 @@ public class MainActivity extends Activity {
 		.setIcon(R.drawable.ic_launcher)
 		.setMessage(R.string.dialog_message_found);
 			
-		builderDialogMessageFound.setPositiveButton(R.string.dialog_button_ok, new DialogInterface.OnClickListener() {
-			
-	           public void onClick(DialogInterface dialog, int id) {
-	        	   handlePushNotification();
-	               godotController.pop(getUser().getUsername());
-	               godotController.startListener(getUser().getUsername());
-	           }
-           
-	    });	
+		builderDialogMessageFound.setPositiveButton(R.string.dialog_button_ok, new MessageFoundClickListener(this.getUser().getUsername()));
 		
 		builderDialogMessageFound.setCancelable(true);
 			
@@ -543,4 +540,5 @@ public class MainActivity extends Activity {
         final ActionBar actionBar = getActionBar();
         actionBar.setSubtitle(user.getFirstname() + " " + user.getLastname());
     }
+	
 }

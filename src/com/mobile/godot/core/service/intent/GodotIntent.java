@@ -8,7 +8,7 @@ public final class GodotIntent {
 	
 	public static final String ENTITY = "com.mobile.godot.intent.category.ENTITY";
 	
-	public static final String CORE = "com.mobile.godot.intent.category.CORE";	
+	public static final String CORE = "com.mobile.godot.intent.category.CORE";
 	
 	public static final class Session {
 		

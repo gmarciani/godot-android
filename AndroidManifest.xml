@@ -26,6 +26,20 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         
+        <service
+  			android:name="com.mobile.godot.core.service.GodotListenerService"
+  			android:icon="@drawable/ic_launcher"
+  			android:label="@string/godot_service_listener"
+  			android:exported="false">
+  		</service> 
+  		
+        <service
+  			android:name="com.mobile.godot.core.service.GodotService"
+  			android:icon="@drawable/ic_launcher"
+  			android:label="@string/godot_service"
+  			android:exported="false">
+  		</service> 
+  		        
         <activity
             android:name="com.mobile.godot.activity.LauncherActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

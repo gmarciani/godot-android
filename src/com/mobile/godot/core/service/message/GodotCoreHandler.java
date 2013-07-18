@@ -3,9 +3,9 @@ package com.mobile.godot.core.service.message;
 import android.os.Handler;
 import android.os.Message;
 
-public class GodotServiceHandler extends Handler {
+public class GodotCoreHandler extends Handler {
 
-	public GodotServiceHandler() {
+	public GodotCoreHandler() {
 		// TODO Auto-generated constructor stub
 	}
 

@@ -392,6 +392,9 @@ public class MainActivity extends Activity {
 		
 		Toast.makeText(getApplicationContext(), R.string.toast_logging_out, Toast.LENGTH_SHORT).show();
 		
+		Intent intentStopService = new Intent(this, GodotListenerService.class);
+		this.stopService(intentStopService);
+		
 		Intent intentLogout = new Intent(this, LauncherActivity.class);
 		intentLogout.putExtra(GodotIntentExtra.EXTRA_LOGIN_MODE, false);
 		this.startActivity(intentLogout);

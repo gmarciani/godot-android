@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <string name="app_name">Godot</string>    
+    
+    <!-- Services -->
+    <string name="godot_service_name">Godot Service</string>
+
+    <!-- Buttons -->
+    <string name="scan">Scan</string>
+    <string name="manage">Gestione</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="register">Registrazione</string>
+    
+    <!-- EditText Hints -->
+    <string name="firstname">Nome</string>
+	<string name="lastname">Cognome</string>
+	<string name="mail">Mail</string>
+	<string name="username">Username</string>
+	<string name="password">Password</string>
+	<string name="car_name">Nome della macchina</string>
+	<string name="car_co_owners">Altri Proprietari</string>
+	
+	<!-- Labels -->
+	<string name="comma_separated">(separati da virgola)</string>	
+	
+    <!-- Toasts -->
+    <string name="toast_login_wrong_syntax">Oops! Errori di sintassi.</string>
+  	<string name="toast_access_denied">Accesso negato</string>
+    <string name="toast_loading_personal_data">Loading</string>
+    <string name="toast_driver_update">Ora sei tu a guidare!</string>
+    <string name="toast_message_sent">Messaggio inviato!</string>
+    <string name="toast_listener_error">Listener Error!</string>
+    <string name="toast_approacher_error">Approacher Error!</string>
+	    <string name="toast_approaching">Approaching</string>
+    <string name="toast_no_network">Nessuna rete disponibile</string>
+    <string name="toast_no_nfc">Il tuo dispositivo non supporta NFC</string>
+    <string name="toast_logging_out">Logging out</string>
+    <string name="toast_registration_success">Registrazione completata</string>
+    <string name="toast_we_would_be_glad">Ci piacerebbe averti con noi!</string>
+    <string name="toast_username_already_in_use">Nome utente già esiste</string>
+    <string name="toast_invalid_input">Dati non accettabili!</string>
+    <string name="toast_car_created">Macchina creata</string>
+    <string name="toast_car_removed">Macchina Rimossa</string>
+    <string name="toast_co_owner_added">Coproprietario aggiunto</string>
+    <string name="toast_co_owner_removed">Coproprietario Rimosso</string>
+    <string name="toast_conflict_error">Dati già esistenti nel mondo Godot</string>
+    <string name="toast_not_found_error">Dati non trovati nel mondo Godot</string>
+    <string name="toast_unacceptable_error">Dati non accettabili nel mondo di Godot</string>
+    <string name="toast_added_co_owner">Coproprietario Aggiunto</string>
+    
+
+    <!-- Dialogs -->
+    <string name="dialog_content_message_found">Sposta la macchina!</string>
+    <string name="dialog_content_approaching">Vuoi interagire col la macchina</string>
+    <string name="dialog_button_ok">OK</string>
+    <string name="dialog_button_cancel">Annulla</string>
+    <string name="dialog_button_add_car">Crea Macchina</string>
+    <string name="godot_logo">Godot Logo</string>
+    <string name="dilog_title_user_registration">Registrazione Utente</string>
+    <string name="dialog_title_add_new_car">Nuova macchina</string>
+
+</resources>

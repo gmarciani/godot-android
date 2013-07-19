@@ -1,16 +1,3 @@
-/**
- * @project WebVoyager
- * 
- * @package gestioneutenti.model.bean
- * 
- * @name UtenteBean.java
- *
- * @description
- *
- * @author Giacomo Marciani (TEAM 9)
- * 
- */
-
 package com.mobile.godot.core.model;
 
 import java.io.Serializable;

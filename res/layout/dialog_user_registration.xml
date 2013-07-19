@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_user_registration_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/etFirstname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:hint="@string/firstname"
+        android:inputType="text|textCapSentences"
+        android:typeface="monospace" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/etLastname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etFirstname"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:hint="@string/lastname"
+        android:inputType="text|textCapSentences"
+        android:typeface="monospace" />
+
+    <EditText
+        android:id="@+id/etMail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etLastname"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:hint="@string/mail"
+        android:inputType="textEmailAddress"
+        android:typeface="monospace" />
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etMail"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:hint="@string/username"
+        android:inputType="text"
+        android:typeface="monospace" />
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etUsername"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:typeface="monospace" />
+
+</RelativeLayout>

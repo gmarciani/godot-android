@@ -13,6 +13,7 @@ import android.view.WindowManager;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class SystemUiHiderHoneycomb extends SystemUiHiderBase {
+	
 	/**
 	 * Flags for {@link View#setSystemUiVisibility(int)} to use when showing the
 	 * system UI.

@@ -3,21 +3,28 @@
 
     <!-- General -->
     <string name="app_name">Godot</string>
-    <string name="service_name">GodotService</string>
     
     <!-- Services -->
-    <string name="godot_service_listener">Godot Listener</string>
-    <string name="godot_service">Godot Services</string>
+    <string name="godot_service_name">GodotService</string>
 
     <!-- Buttons -->
     <string name="scan">Scan</string>
     <string name="manage">Manage</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
+    <string name="register">Register</string>
     
     <!-- EditText Hints -->
+    <string name="firstname">Firstname</string>
+	<string name="lastname">Lastname</string>
+	<string name="mail">Mail</string>
 	<string name="username">Username</string>
 	<string name="password">Password</string>
+	<string name="car_name">Car Name</string>
+	<string name="car_co_owners">Other Owners</string>
+	
+	<!-- Labels -->
+	<string name="comma_separated">(comma separated)</string>	
 	
     <!-- Toasts -->
     <string name="toast_login_wrong_syntax">Oops! Something wrong in your login.</string>
@@ -32,12 +39,27 @@
     <string name="toast_no_nfc">Your device is not NFC powered</string>
     <string name="toast_logging_out">Logging out</string>
     <string name="toast_registration_success">Registration Succeed</string>
+    <string name="toast_we_would_be_glad">We would be glad to have you with us</string>
+    <string name="toast_username_already_in_use">Username already in use</string>
+    <string name="toast_invalid_input">Unacceptable Data!</string>
+    <string name="toast_car_created">Car created</string>
+    <string name="toast_car_removed">Car removed</string>
+    <string name="toast_co_owner_added">CoOwner Added</string>
+    <string name="toast_co_owner_removed">CoOwner Removed</string>
+    <string name="toast_conflict_error">Data already existent in Godot\'s world</string>
+    <string name="toast_not_found_error">Data not found in Godot\'s world</string>
+    <string name="toast_unacceptable_error">Data not acceptable in Godot\'s world</string>
+    <string name="toast_added_co_owner">Added CoOwner</string>
+    
 
     <!-- Dialogs -->
-    <string name="dialog_message_found">Move your car!</string>
-    <string name="dialog_approaching">Would you like to approach</string>
+    <string name="dialog_content_message_found">Move your car!</string>
+    <string name="dialog_content_approaching">Would you like to approach</string>
     <string name="dialog_button_ok">OK</string>
     <string name="dialog_button_cancel">Cancel</string>
+    <string name="dialog_button_add_car">Add Car</string>
     <string name="godot_logo">Godot Logo</string>
+    <string name="dilog_title_user_registration">User Registration</string>
+    <string name="dialog_title_add_new_car">New Car</string>
 
 </resources>

@@ -5,9 +5,7 @@ import android.os.Message;
 
 public class GodotCoreHandler extends Handler {
 
-	public GodotCoreHandler() {
-		// TODO Auto-generated constructor stub
-	}
+	public GodotCoreHandler() {}
 
 	@Override
     public void handleMessage(Message mMessage) {	
@@ -78,6 +76,18 @@ public class GodotCoreHandler extends Handler {
 				handleUnauthorizedError(mMessage);
 				break;
 				
+			case GodotMessage.Error.CONFLICT:
+				handleConflictError(mMessage);
+				break;
+				
+			case GodotMessage.Error.UNACCEPTABLE:
+				handleUnacceptableError(mMessage);
+				break;
+				
+			case GodotMessage.Error.NOT_FOUND:
+				handleNotFoundError(mMessage);
+				break;
+				
 			case GodotMessage.Error.REDIRECTION_ERROR:
 				handleRedirectionError(mMessage);
 				break;
@@ -91,94 +101,46 @@ public class GodotCoreHandler extends Handler {
 			}		
     }	
 
-	public void handleRegistered(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleRegistered(Message mMessage) {}
 
-	public void handleLoggedIn(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleLoggedIn(Message mMessage) {}
 
-	public void handleLoggedOut(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleLoggedOut(Message mMessage) {}
 
-	public void handleNotLogged(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleNotLogged(Message mMessage) {}
 	
-	public void handleCarCreated(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleCarCreated(Message mMessage) {}
 
-	public void handleCarRemoved(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleCarRemoved(Message mMessage) {}
 
-	public void handleCoownerAdded(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleCoownerAdded(Message mMessage) {}
 
-	public void handleCoownerRemoved(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleCoownerRemoved(Message mMessage) {}
 	
-	public void handleMessageFound(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleMessageFound(Message mMessage) {}
 
-	public void handleMessageNotFound(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleMessageNotFound(Message mMessage) {}
 
-	public void handleMessageSent(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleMessageSent(Message mMessage) {}
 
-	public void handleMessageRead(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleMessageRead(Message mMessage) {}
 
-	public void handleDriverUpdated(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}	
+	public void handleDriverUpdated(Message mMessage) {}	
 	
-	public void handleNfcError(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleNfcError(Message mMessage) {}
 
-	public void handleQrCodeError(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleQrCodeError(Message mMessage) {}
 
-	public void handleUnauthorizedError(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleUnauthorizedError(Message mMessage) {}
+	
+	public void handleUnacceptableError(Message mMessage) {}
+	
+	public void handleConflictError(Message mMessage) {}
+	
+	public void handleNotFoundError(Message mMessage) {}
 
-	public void handleRedirectionError(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleRedirectionError(Message mMessage) {}
 
-	public void handleServerError(Message mMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleServerError(Message mMessage) {}
 
 }

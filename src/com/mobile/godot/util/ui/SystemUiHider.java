@@ -24,6 +24,7 @@ import android.view.View;
  * @see android.view.WindowManager.LayoutParams#FLAG_FULLSCREEN
  */
 public abstract class SystemUiHider {
+	
 	/**
 	 * When this flag is set, the
 	 * {@link android.view.WindowManager.LayoutParams#FLAG_LAYOUT_IN_SCREEN}

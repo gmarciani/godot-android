@@ -119,7 +119,7 @@ public class GodotListenerService extends IntentService {
 			Resources mResources = mContext.getResources();
 			
 			String appName = mResources.getString(R.string.app_name);
-			String messageFound = mResources.getString(R.string.dialog_message_found);
+			String messageFound = mResources.getString(R.string.dialog_content_message_found);
 			
 			Intent intent = new Intent(mContext, MainActivity.class);
 			intent.setAction(GodotIntentResult.Core.MESSAGE_READ);

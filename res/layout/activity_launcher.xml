@@ -50,15 +50,41 @@
                 android:inputType="textPassword"
                 android:typeface="monospace" />
             
-            <Button
-                android:id="@+id/button_login"
-                style="?buttonBarButtonStyle"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/fullscreen_content_login_button"
+                style="?buttonBarStyle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:text="@string/login"
-                android:typeface="monospace" />
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@color/black_overlay"
+                android:orientation="horizontal"
+                tools:ignore="UselessParent" >
+            	
+                <Button
+	                android:id="@+id/button_register"
+	                style="?buttonBarButtonStyle"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_gravity="center_horizontal"
+	                android:layout_weight="1"
+	                android:drawableLeft="@drawable/ic_register"
+	                android:text="@string/register"
+	                android:typeface="monospace" />
+            
+	            <Button
+	                android:id="@+id/button_login"
+	                style="?buttonBarButtonStyle"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_gravity="center_horizontal"
+	                android:layout_weight="1"
+	                android:contentDescription="@string/login"
+	                android:drawableLeft="@drawable/ic_login"
+	                android:text="@string/login"
+	                android:typeface="monospace" />
+	            
+	            </LinearLayout>
             
         </LinearLayout>        
 

@@ -1,5 +1,7 @@
 package com.mobile.godot.activity;
 
+import java.io.UnsupportedEncodingException;
+
 import jim.h.common.android.lib.zxing.config.ZXingLibConfig;
 import jim.h.common.android.lib.zxing.integrator.IntentIntegrator;
 import jim.h.common.android.lib.zxing.integrator.IntentResult;
@@ -7,6 +9,8 @@ import jim.h.common.android.lib.zxing.integrator.IntentResult;
 import com.mobile.godot.R;
 import com.mobile.godot.core.GodotPreference;
 import com.mobile.godot.core.controller.CoreController;
+import com.mobile.godot.core.model.CarBean;
+import com.mobile.godot.core.model.LoginBean;
 import com.mobile.godot.core.model.UserBean;
 import com.mobile.godot.core.service.GodotListenerService;
 import com.mobile.godot.core.service.broadcast.GodotListenerBroadcastReceiver;
@@ -28,16 +32,22 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,8 +87,9 @@ public class MainActivity extends Activity {
 	NotificationManager notificationManager;
 	
 	//Dialogs
-	private AlertDialog alertDialogMessageFound;
-	private AlertDialog alertDialogConfirmApproach;
+	private AlertDialog dialogMessageFound;
+	private AlertDialog dialogConfirmApproach;
+	private AlertDialog dialogAddNewCar;
 	
 	//Views
 	private Button buttonScan;
@@ -175,18 +186,59 @@ public class MainActivity extends Activity {
   		
   		@Override
   		public void handleMessageFound(Message mMessage) {  	
-  			Toast.makeText(getApplicationContext(), "HANDLE MESSAGE", Toast.LENGTH_LONG).show();
-  			alertDialogMessageFound.show();  			
+  			dialogMessageFound.show();  			
   		}
   		
   		@Override
   		public void handleMessageSent(Message mMessage) {
-  			Toast.makeText(getApplicationContext(), R.string.toast_message_sent, Toast.LENGTH_LONG).show();  			
+  			Toast.makeText(getApplicationContext(), R.string.toast_message_sent, Toast.LENGTH_SHORT).show();  			
   		}
   		
   		@Override
   		public void handleDriverUpdated(Message mMessage) {
-  			Toast.makeText(getApplicationContext(), R.string.toast_driver_update, Toast.LENGTH_LONG).show();  			
+  			Toast.makeText(getApplicationContext(), R.string.toast_driver_update, Toast.LENGTH_SHORT).show();  			
+  		}
+  		
+  		@Override
+  		public void handleCarCreated(Message mMessage) {
+  			Toast.makeText(getApplicationContext(), R.string.toast_car_created, Toast.LENGTH_SHORT).show();
+  			
+  		}
+
+  		@Override
+  		public void handleCarRemoved(Message mMessage) {
+  			Toast.makeText(getApplicationContext(), R.string.toast_car_removed, Toast.LENGTH_SHORT).show();
+  			
+  		}
+
+  		@Override
+  		public void handleCoownerAdded(Message mMessage) {
+  			Toast.makeText(getApplicationContext(), R.string.toast_co_owner_added, Toast.LENGTH_SHORT).show();
+  			
+  		}
+
+  		@Override
+  		public void handleCoownerRemoved(Message mMessage) {
+  			Toast.makeText(getApplicationContext(), R.string.toast_co_owner_removed, Toast.LENGTH_SHORT).show();
+  			
+  		}
+  		
+  		@Override
+  		public void handleConflictError(Message mMessage) {
+  			Toast.makeText(getApplicationContext(), R.string.toast_conflict_error, Toast.LENGTH_SHORT).show();
+  			
+  		}
+  		
+  		@Override
+  		public void handleNotFoundError(Message mMessage) {
+  			Toast.makeText(getApplicationContext(), R.string.toast_not_found_error, Toast.LENGTH_SHORT).show();
+  			
+  		}
+  		
+  		@Override
+  		public void handleUnacceptableError(Message mMessage) {
+  			Toast.makeText(getApplicationContext(), R.string.toast_unacceptable_error, Toast.LENGTH_SHORT).show();
+  			
   		}
   		
   	};
@@ -199,7 +251,7 @@ public class MainActivity extends Activity {
   		
   		@Override
 		public void handleMessageFound() {
-			alertDialogMessageFound.show(); 
+			dialogMessageFound.show(); 
 		}
   		
   	}
@@ -244,7 +296,8 @@ public class MainActivity extends Activity {
 		service.putExtra(GodotIntentExtra.EXTRA_USERNAME, this.getUser().getUsername());
 		this.startService(service);
 		
-		alertDialogMessageFound = buildDialogMessageFound();
+		dialogMessageFound = buildDialogMessageFound();
+		dialogAddNewCar = buildDialogAddNewCar();
 		
 	}
 	
@@ -259,9 +312,67 @@ public class MainActivity extends Activity {
 		
 		this.registerReceiver(mGodotListenerReceiver, filterListener);
 		
-		handleNetworkAvailability();
+		if (handleNetworkAvailability()) {
+			
+			Intent intent = getIntent();
+			NdefMessage msgs[];
+
+			if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+				Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+				if (rawMsgs != null) {
+					msgs = new NdefMessage[rawMsgs.length];
+					for (int i = 0; i < rawMsgs.length; i++) {
+						msgs[i] = (NdefMessage) rawMsgs[i];
+					}
+					
+					if (msgs[0] != null) {
+						String carName = this.getGodotTag(msgs[0]);
+						
+						if (carName != null) {
+							this.controller.approach(this.getUser().getUsername(), carName);
+						}
+						
+					}
+					
+				}
+			}
+			
+		}
 		
 	}
+	
+	private String getGodotTag(NdefMessage msg) {
+		
+		NdefRecord[] records = msg.getRecords();
+		String str = null;
+		
+		if (records[1] != null) {
+			
+			byte data[] = records[1].getPayload();
+			
+			try {
+				str = new String(data, "UTF-8");
+			} catch (UnsupportedEncodingException exc) {
+				exc.printStackTrace();
+			}				
+		}
+		
+		return str;
+	}
+	
+	/*
+	//To show how Godot Tag has been created
+	
+	public NdefMessage createGodotMessage(String carId) {
+		NdefRecord aar = NdefRecord.createApplicationRecord("com.mobile.godot");
+		byte data[] = carId.getBytes();
+
+		NdefRecord record = NdefRecord.createMime("text/plain", data);
+
+	    NdefMessage message = new NdefMessage(aar, record);
+
+	    return message;
+	}*/	
 	
 	@Override
 	protected void onPause() {
@@ -285,23 +396,6 @@ public class MainActivity extends Activity {
 				
 		return loggedUser;
 	}
-	/*
-	private UserBean getCachedUser() {
-		UserBean loggedUser = null;
-		
-		System.out.println("@@@@@@@@@@@CAHCHED USER @@@@@@@@@@@@@");
-		
-		this.mPref = getSharedPreferences(GodotPreference.PREF, MODE_PRIVATE);
-		
-		String JSONString = this.mPref.getString(GodotPreference.USER, null);
-		
-		if (JSONString != null) {
-			
-			loggedUser = new UserBean().fromJSONString(JSONString);
-		} 
-				
-		return loggedUser;
-	}*/
 
 	private UserBean getUser() {
 		return this.userBean;
@@ -380,12 +474,45 @@ public class MainActivity extends Activity {
 	}
 	
 	private void approach(String carName) {		
-		alertDialogConfirmApproach = buildDialogConfirmApproach(carName);
-		alertDialogConfirmApproach.show();
+		dialogConfirmApproach = buildDialogConfirmApproach(carName);
+		dialogConfirmApproach.show();
 	}
 	
 	private void manage() {		
-		Toast.makeText(getApplicationContext(), "Manage", Toast.LENGTH_SHORT).show();		
+		dialogAddNewCar.show();	
+	}
+	
+	private void addNewCarWithCoOwners(String carName, String coOwners) {
+		if (carName == null || carName.isEmpty() || coOwners == null || coOwners.isEmpty()) {
+			Toast.makeText(getApplicationContext(), R.string.toast_invalid_input, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
+		CarBean car = new CarBean()
+		.setName(carName)
+		.setOwnerUsername(getUser().getUsername())
+		.setDriverUsername(getUser().getUsername());
+		
+		this.controller.addCar(car);
+		
+		Handler sleepH = new Handler();
+		
+		sleepH.postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {}
+			
+		}, 1500);
+		
+		String[] coOwnersList = coOwners.split(",");
+		
+		LoginBean login = new LoginBean()
+		.setUsername(this.getUser().getUsername())
+		.setPassword(this.getUser().getPassword());
+		
+		for (int count = 0 ; count < coOwnersList.length ; count ++ ) {
+			this.controller.addCoOwner(carName, coOwnersList[count], login);
+		}
 	}
 	
 	private void logout() {		
@@ -506,7 +633,7 @@ public class MainActivity extends Activity {
 		AlertDialog.Builder builderDialogMessageFound = new AlertDialog.Builder(this)
 		.setTitle(R.string.app_name)
 		.setIcon(R.drawable.ic_launcher)
-		.setMessage(R.string.dialog_message_found);
+		.setMessage(R.string.dialog_content_message_found);
 			
 		builderDialogMessageFound.setPositiveButton(R.string.dialog_button_ok, new MessageFoundClickListener(this.getUser().getUsername()));
 		
@@ -521,7 +648,7 @@ public class MainActivity extends Activity {
 		
 		AlertDialog dialogMessageFound;
 		
-		String message = getResources().getString(R.string.dialog_approaching);
+		String message = getResources().getString(R.string.dialog_content_approaching);
 		message += " " + carName + "?";
 			
 		AlertDialog.Builder builderDialogMessageFound = new AlertDialog.Builder(this)
@@ -536,6 +663,50 @@ public class MainActivity extends Activity {
 		dialogMessageFound = builderDialogMessageFound.create();
 		
 		return dialogMessageFound;
+	}
+	
+	private AlertDialog buildDialogAddNewCar() {
+		
+		AlertDialog dialogAddNewCar;
+		
+		AlertDialog.Builder builderDialogAddNewCar = new AlertDialog.Builder(this);
+		builderDialogAddNewCar
+		.setTitle(R.string.dialog_title_add_new_car)
+		.setIcon(R.drawable.ic_launcher);
+		
+		LayoutInflater inflaterDialogAddNewCar = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		View contentDialogAddNewCar = inflaterDialogAddNewCar.inflate(R.layout.dialog_car_registration, (ViewGroup) findViewById(R.id.dialog_add_car));			
+		builderDialogAddNewCar.setView(contentDialogAddNewCar);
+		
+		final EditText etCarName = (EditText) contentDialogAddNewCar.findViewById(R.id.et_car_name);	
+		final EditText etCoOwners = (EditText) contentDialogAddNewCar.findViewById(R.id.et_co_owners);		
+		
+		builderDialogAddNewCar.setPositiveButton(R.string.dialog_button_add_car, new DialogInterface.OnClickListener() {
+			
+			
+           public void onClick(DialogInterface dialog, int id) {
+        	   
+        	   String carName = etCarName.getText().toString();
+        	   String coOwners = etCoOwners.getText().toString();
+        	   
+        	   addNewCarWithCoOwners(carName, coOwners);
+               
+           }
+	           
+       });
+		
+		builderDialogAddNewCar.setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
+	           
+			public void onClick(DialogInterface dialog, int id) {
+
+				
+	        }
+			
+	    });	
+		
+		dialogAddNewCar = builderDialogAddNewCar.create();
+		
+		return dialogAddNewCar;
 	}
 
 	private final void refreshActionBar(UserBean user) {

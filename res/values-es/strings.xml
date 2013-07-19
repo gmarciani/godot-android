@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <string name="app_name">Godot</string>   
+    
+    <!-- Services -->
+    <string name="godot_service_name">Servicio Godot</string>
+
+    <!-- Buttons -->
+    <string name="scan">Escanea</string>
+    <string name="manage">Gestiona</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="register">Registrarse</string>
+    
+    <!-- EditText Hints -->
+    <string name="firstname">Nombre</string>
+	<string name="lastname">Apellico</string>
+	<string name="mail">Mail</string>
+	<string name="username">Username</string>
+	<string name="password">Password</string>
+	<string name="car_name">Nombre del carro</string>
+	<string name="car_co_owners">Propietarios adicionales</string>
+	
+	<!-- Labels -->
+	<string name="comma_separated">(separados por coma)</string>	
+	
+    <!-- Toasts -->
+    <string name="toast_login_wrong_syntax">Oops! Ha ocurrido un error durante el login .</string>
+    <string name="toast_access_denied">Acceso no permitido</string>
+    <string name="toast_loading_personal_data">Cargando tus datos personales</string>
+    <string name="toast_driver_update">Ahora conduces éste coche!</string>
+    <string name="toast_message_sent">Mensaje enviado!</string>
+    <string name="toast_listener_error">Errores en el listener!</string>
+    <string name="toast_approacher_error">Errores en el approacher!</string>
+    <string name="toast_approaching">Aproximándose</string>
+    <string name="toast_no_network">No hay conexiones de red disponibles</string>
+    <string name="toast_no_nfc">Tu dispositivo no cuenta con un sensor NFC</string>
+    <string name="toast_logging_out">Logging out</string>
+    <string name="toast_registration_success">Registro realizado con éxito</string>
+    <string name="toast_we_would_be_glad">Nos gustaría contar contigo!</string>
+    <string name="toast_username_already_in_use">Username no disponible</string>
+    <string name="toast_invalid_input">Datos no validos!</string>
+    <string name="toast_car_created">Carro creado</string>
+    <string name="toast_car_removed">Car eliminado</string>
+    <string name="toast_co_owner_added">Co-propietario guardado</string>
+    <string name="toast_co_owner_removed">Co-propietario eliminado</string>
+    <string name="toast_conflict_error">Datos ya existentes en el mundo de Godot</string>
+    <string name="toast_not_found_error">Datos no encontrados en el database di Godot</string>
+    <string name="toast_unacceptable_error">Datos no compatibles con el mundo Godot</string>
+    <string name="toast_added_co_owner">Co-proprietario guardao</string>
+    
+
+    <!-- Dialogs -->
+    <string name="dialog_content_message_found">Tienes que mover tu carro!</string>
+    <string name="dialog_content_approaching">Quieres hacer el aproach con este carro </string>
+    <string name="dialog_button_ok">OK</string>
+    <string name="dialog_button_cancel">Cancelar</string>
+    <string name="dialog_button_add_car">Aggiungi carro</string>
+    <string name="godot_logo">Logo di Godot</string>
+    <string name="dilog_title_user_registration">Registro usuario</string>
+    <string name="dialog_title_add_new_car">Nuevo Carro</string>
+
+</resources>

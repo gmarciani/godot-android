@@ -1,16 +1,3 @@
-/**
- * @project WebGodot
- * 
- * @package model.bean
- * 
- * @name LoginBean.java
- *
- * @description
- *
- * @author Giacomo Marciani
- * 
- */
-
 package com.mobile.godot.core.model;
 
 import java.io.Serializable;

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <string name="app_name">Godot</string>    
+    
+    <!-- Services -->
+    <string name="godot_service_name">Service Godot</string>
+
+    <!-- Buttons -->
+    <string name="scan">   Scander  </string>
+    <string name="manage">Gérer</string>
+    <string name="login">Identifiant</string>
+    <string name="logout">Deconnection</string>
+    <string name="register">Inscription</string>
+    <string name="car_name">Nom de voiture</string>
+	<string name="car_co_owners">Autre propriétaire</string>
+	
+    <!-- EditText Hints -->
+	<string name="username">Nom d\'utilisateur</string>
+	<string name="password">Mot de passe</string>
+	<string name="mail">Mail</string>
+	<string name="username">Username</string>
+	<string name="password">Password</string>
+	<string name="car_name">Nom de voiture</string>
+	<string name="car_co_owners">Autre propriétaire</string>
+	
+	
+    <!-- Toasts -->
+    <string name="toast_login_wrong_syntax">Oops! Quelques erreurs dans votre procedure d\'identification.</string>
+    <string name="toast_access_denied">Accès refusé </string>
+    <string name="toast_loading_personal_data">Chargement des données personnelles</string>
+    <string name="toast_driver_update"> Votre pilote a été maintenant mise a jour !</string>
+    <string name="toast_message_sent">Message envoyé!</string>
+    <string name="toast_listener_error">Erreur de l\'ecouteur!</string>
+    <string name="toast_approacher_error">Erreur de distance appoprié !</string>
+    <string name="toast_approaching">Rapprochement </string>
+    <string name="toast_no_network">Pas de réseau disponible</string>
+    <string name="toast_no_nfc">Votre appareil est dépourvu de   NFC</string>
+    <string name="toast_logging_out">Déconnection</string>
+    <string name="toast_registration_success">Inscription réussite</string>
+	<string name="toast_we_would_be_glad">nous serions heureux de vous avoir avec nous</string>
+    <string name="toast_username_already_in_use">Nom d\'utilisateur déjà utilisé</string>
+    <string name="toast_invalid_input">les données est inacceptable</string>
+    <string name="toast_car_created">Une nouvelle voiture a été créé</string>
+    <string name="toast_car_removed">La voiture a été enlevée</string>
+    <string name="toast_co_owner_added">Un nouveau copropriétaire ont été ajoutées</string>
+    <string name="toast_co_owner_removed">Le copropriétaire a été éliminée</string>
+    <string name="toast_conflict_error">Les données sont déjà existant dans le monde Godot</string>
+    <string name="toast_not_found_error">Les données n\'ont pas été trouvés existant dans le monde Godot</string>
+    <string name="toast_unacceptable_error">Les données ne sont pas acceptables dans le monde Godot</string>
+    <string name="toast_added_co_owner">Un nouveau copropriétaire ont été ajoutées</string>
+    <!-- Dialogs -->
+    <string name="dialog_message_found">Déplacez votre voiture!</string>
+    <string name="dialog_approaching">Voulez-vous aborder cette voiture?</string>
+    <string name="dialog_button_ok">OK</string>
+    <string name="dialog_button_cancel">Eliminer </string>
+    <string name="godot_logo">Le logo de  Godot </string>
+    <string name="dilog_title_user_registration">Insciption de l\'utilisateur</string>
+    <string name="dialog_title_add_new_car">Nouvelle voiture</string>
+
+</resources>

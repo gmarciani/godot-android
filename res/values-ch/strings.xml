@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <string name="app_name"> 等待戈多 </string>
+    
+    
+    <!-- Services -->
+    <string name="godot_service_name"> 等待戈多 服务 </string>
+
+    <!-- Buttons -->
+    <string name="scan"> 浏览 </string>
+    <string name="manage"> 管理 </string>
+    <string name="login"> 注册 </string>
+    <string name="logout"> 退出 </string>
+    
+    <!-- EditText Hints -->
+	<string name="username"> 用户名 </string>
+	<string name="password"> 密码 </string>
+	
+    <!-- Toasts -->
+    <string name="toast_login_wrong_syntax"> 糟糕！您的登录错误的东西. </string>
+    <string name="toast_access_denied"> 拒绝访问 </string>
+    <string name="toast_loading_personal_data"> 载入个人资料 </string>
+    <string name="toast_driver_update"> 您现在的司机！ </string>
+    <string name="toast_message_sent"> 消息已发出！ </string>
+    <string name="toast_listener_error"> 监听错误！ </string>
+    <string name="toast_approacher_error"> “逼近错误！ </string>
+    <string name="toast_approaching"> 接近 </string>
+    <string name="toast_no_network"> 没有网络可用 </string>
+    <string name="toast_no_nfc">您的设备是不是 NFC 供电</string>
+    <string name="toast_logging_out"> 注销 </string>
+    <string name="toast_registration_success"> 注册成功 </string>
+
+    <!-- Dialogs -->
+    <string name="dialog_message_found"> 移动你的车! </string>
+    <string name="dialog_approaching"> 你会想办法的 </string>
+    <string name="dialog_button_ok"> 行 </string>
+    <string name="dialog_button_cancel"> 取消 </string>
+    <string name="godot_logo"> 等待戈多标志 </string>
+
+</resources>

@@ -89,9 +89,8 @@ public class CoreController {
 		
 		String servlet = "AddCar";
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("name", car.getName()));
-		params.add(new BasicNameValuePair("ownerUsername", car.getOwnerUsername()));
-		params.add(new BasicNameValuePair("driverUsername", car.getDriverUsername()));
+		params.add(new BasicNameValuePair("carName", car.getName()));
+		params.add(new BasicNameValuePair("username", car.getOwnerUsername()));
 		SparseIntArray mMessageMap = new SparseIntArray();
 		mMessageMap.append(HttpURLConnection.HTTP_OK, GodotMessage.Entity.CAR_CREATED);
 		mMessageMap.append(HttpURLConnection.HTTP_CONFLICT, GodotMessage.Error.CONFLICT);

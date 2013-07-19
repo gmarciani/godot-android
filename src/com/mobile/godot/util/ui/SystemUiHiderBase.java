@@ -9,6 +9,7 @@ import android.view.WindowManager;
  * API levels to show and hide the status bar.
  */
 public class SystemUiHiderBase extends SystemUiHider {
+	
 	/**
 	 * Whether or not the system UI is currently visible. This is a cached value
 	 * from calls to {@link #hide()} and {@link #show()}.

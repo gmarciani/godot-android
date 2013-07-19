@@ -8,9 +8,7 @@ import android.content.Intent;
 
 public class GodotListenerBroadcastReceiver extends BroadcastReceiver {
 
-	public GodotListenerBroadcastReceiver() {
-		// TODO Auto-generated constructor stub
-	}
+	public GodotListenerBroadcastReceiver() {}
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -23,9 +21,6 @@ public class GodotListenerBroadcastReceiver extends BroadcastReceiver {
 
 	}
 
-	public void handleMessageFound() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleMessageFound() {}
 
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <string name="app_name">Godot</string>
+    
+    <!-- Services -->
+    <string name="godot_service_name">GodotHorer</string>
+
+    <!-- Buttons -->
+    <string name="scan">Scannen</string>
+    <string name="manage">verwalten</string>
+    <string name="login">Anmelden</string>
+    <string name="logout">Abmelden</string>
+    
+    <!-- EditText Hints -->
+	<string name="username">Benutzername</string>
+	<string name="password">Kennwort</string>
+	<string name="car_name">Auto Name</string>
+	<string name="car_co_owners">Other Owners</string>
+	
+	<!-- Labels -->
+	<string name="comma_separated">(durch Komma getrennt)</string>	
+    <!-- Toasts -->
+    <string name="toast_login_wrong_syntax">Oops! Etwas falsch in Ihrem Anmelden.</string>
+    <string name="toast_access_denied">Zugriff verweigert</string>
+    <string name="toast_loading_personal_data">Lädt persönlichen Daten</string>
+    <string name="toast_driver_update">Sie sind nun der Fahrer!</string>
+    <string name="toast_message_sent">Nachricht wurde gesendet</string>
+    <string name="toast_listener_error">Hörer Fehler!</string>
+    <string name="toast_approacher_error">Annäherung Fehler!</string>
+    <string name="toast_approaching">Nähern</string>
+    <string name="toast_no_network">Kein Netz verfügbar</string>
+    <string name="toast_no_nfc">Ihr Gerät ist nicht NFC betriebenen</string>
+    <string name="toast_logging_out">Abmelden</string>
+    <string name="toast_registration_success">Anmeldung gelungen</string>
+	<string name="toast_we_would_be_glad">wären wir froh, dass Sie bei uns zu haben</string>
+    <string name="toast_username_already_in_use">Benutzername bereits verwendet</string>
+    <string name="toast_invalid_input">inakzeptabel Daten!</string>
+    <string name="toast_car_created">die neue Auto wurde erstellt</string>
+    <string name="toast_car_removed">das neue Auto wurde entfernt</string>
+    <string name="toast_co_owner_added">Einen neuen Besitzer wurde hinzugefügt</string>
+    <string name="toast_co_owner_removed">CoOwner Removed</string>
+    <string name="toast_conflict_error">Daten werden bereits in Godot Welt</string>
+    <string name="toast_not_found_error">Daten nicht auf dem Godot Datenbank gefunden</string>
+    <string name="toast_unacceptable_error">Godot Datenbank nicht akzeptieren diese Daten</string>
+    <string name="toast_added_co_owner">eine neue Miteigentümerin wurde hinzugefügt</string>
+    <!-- Dialogs -->
+    <string name="dialog_message_found">Bewegen Sie Ihr Auto!</string>
+    <string name="dialog_approaching">Möchten Sie nähern</string>
+    <string name="dialog_button_ok">in Ordnung</string>
+    <string name="dialog_button_cancel">stornieren</string>
+    <string name="godot_logo">Godot Emblem</string>
+    <string name="dialog_button_add_car">Fügen Sie ein neues Auto</string>
+    <string name="dilog_title_user_registration">Benutzer anmelden</string>
+    <string name="dialog_title_add_new_car">Neuwagen</string>
+	
+</resources>

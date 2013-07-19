@@ -8,9 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 public class GodotURLUtils {
 
-	public GodotURLUtils() {
-		// TODO Auto-generated constructor stub
-	}
+	private GodotURLUtils() {}
 	
 	public static URL parseToURL(String servlet, List<BasicNameValuePair> params) {
 		String parsedParams = "?";

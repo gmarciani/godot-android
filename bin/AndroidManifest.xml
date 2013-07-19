@@ -1,4 +1,5 @@
 <?xml version = "1.0" encoding = "utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mobile.godot"
     android:versionCode="1"
@@ -29,14 +30,7 @@
         <service
   			android:name="com.mobile.godot.core.service.GodotListenerService"
   			android:icon="@drawable/ic_launcher"
-  			android:label="@string/godot_service_listener"
-  			android:exported="false">
-  		</service> 
-  		
-        <service
-  			android:name="com.mobile.godot.core.service.GodotService"
-  			android:icon="@drawable/ic_launcher"
-  			android:label="@string/godot_service"
+  			android:label="@string/godot_service_name"
   			android:exported="false">
   		</service> 
   		        

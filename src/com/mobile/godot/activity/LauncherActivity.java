@@ -15,6 +15,8 @@ import com.mobile.godot.util.ui.SystemUiHider;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -24,8 +26,10 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -62,10 +66,14 @@ public class LauncherActivity extends Activity {
 	//Views
 	private EditText etUsername;
 	private EditText etPassword;
-	private Button buttonLogin;
+	private Button btnLogin;
+	private Button btnRegister;
+	
+	//Dialogs
+	private AlertDialog dialogUserRegistration;
 	
 	//Click Listeners
-	View.OnClickListener mLoginListener = new View.OnClickListener() {
+	View.OnClickListener mLoginClickListener = new View.OnClickListener() {
 		
 		@Override
 		public void onClick(View v) {
@@ -82,8 +90,16 @@ public class LauncherActivity extends Activity {
 		
 	};	
 	
-	//Touch Listener
+	View.OnClickListener mRegisterClickListener = new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {			
+			dialogUserRegistration.show();			
+		}
+		
+	};
 	
+	//Touch Listener	
 	View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
 		
 		@Override
@@ -100,16 +116,10 @@ public class LauncherActivity extends Activity {
 	TextWatcher mDelayHideTextWatcher = new TextWatcher() {
 
 		@Override
-		public void afterTextChanged(Editable s) {
-			// TODO Auto-generated method stub
-			
-		}
+		public void afterTextChanged(Editable s) {}
 
 		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			// TODO Auto-generated method stub
-			
-		}
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -143,6 +153,11 @@ public class LauncherActivity extends Activity {
 		}
 		
 		@Override
+		public void handleConflictError(Message mMessage) {
+			Toast.makeText(getApplicationContext(), R.string.toast_username_already_in_use, Toast.LENGTH_SHORT).show();
+		}
+		
+		@Override
 		public void handleLoggedIn(Message mMessage) {
 			
 			String data = (String) mMessage.obj;
@@ -157,7 +172,6 @@ public class LauncherActivity extends Activity {
 				}
 				
 				UserBean loggedUserBean = new UserBean().fromJSON(jObj);
-				//setCachedUser(loggedUserBean);
 				
 				LoginBean loginBean = new LoginBean()
 				.setUsername(loggedUserBean.getUsername())
@@ -187,13 +201,17 @@ public class LauncherActivity extends Activity {
 		
 		etUsername = (EditText) findViewById(R.id.et_username);
 		etPassword = (EditText) findViewById(R.id.et_password);		
-		buttonLogin = (Button) findViewById(R.id.button_login);
+		btnLogin = (Button) findViewById(R.id.button_login);
+		btnRegister = (Button) findViewById(R.id.button_register);
 		
-		buttonLogin.setOnClickListener(mLoginListener);
+		btnLogin.setOnClickListener(mLoginClickListener);
+		btnRegister.setOnClickListener(mRegisterClickListener);
 		
 		etUsername.addTextChangedListener(mDelayHideTextWatcher);
 		etPassword.addTextChangedListener(mDelayHideTextWatcher);
-		buttonLogin.setOnTouchListener(mDelayHideTouchListener);
+		btnLogin.setOnTouchListener(mDelayHideTouchListener);
+		
+		dialogUserRegistration = buildDialogUserRegistration();
 		
 		this.loginController = LoginController.getInstance(this.getApplicationContext(), this.mHandler);
 		
@@ -249,37 +267,86 @@ public class LauncherActivity extends Activity {
 	    
 	    editor.commit();
 	}
-	/*
-	private void setCachedUser(UserBean userBean) {	
-		
-		String JSONString = userBean.toJSONString();
-		
-		this.mPref = getSharedPreferences(GodotPreference.PREF, MODE_PRIVATE);
-		
-		SharedPreferences.Editor editor = this.mPref.edit();					
-	    
-		editor.putString(GodotPreference.USER, JSONString);
-	    
-	    editor.commit();
-	}*/
 	
-	private void login(LoginBean loginBean) {
-		String username = loginBean.getUsername();
-		String password = loginBean.getPassword();
+	private void login(LoginBean login) {
+		String username = login.getUsername();
+		String password = login.getPassword();
 		
 		if (username.isEmpty() || username == null || password.isEmpty() || password == null ) {
 			Toast.makeText(getApplicationContext(), R.string.toast_login_wrong_syntax, Toast.LENGTH_SHORT).show();
 		} else {
-			this.loginController.login(loginBean);
+			this.loginController.login(login);
 		}
 	}	
 	
-	private void goToMain(UserBean userBean) {
+	private void goToMain(UserBean user) {
 		Intent intentLoggedUser = new Intent(this, MainActivity.class);
 		intentLoggedUser.setAction(GodotIntent.Session.LOGIN);
-		intentLoggedUser.putExtra(GodotIntentExtra.EXTRA_USER, userBean);
+		intentLoggedUser.putExtra(GodotIntentExtra.EXTRA_USER, user);
 		this.startActivity(intentLoggedUser);
 		
+	}
+	
+	private void registerNewUser(UserBean user) {
+		this.loginController.register(user);
+	}
+	
+	private AlertDialog buildDialogUserRegistration() {
+		
+		AlertDialog dialogUserRegistration;
+		
+		AlertDialog.Builder builderDialogUserRegistration = new AlertDialog.Builder(this);
+		builderDialogUserRegistration
+		.setTitle(R.string.dilog_title_user_registration)
+		.setIcon(R.drawable.ic_launcher);
+		
+		LayoutInflater inflaterDialogUserRegistration = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		View contentDialogUserRegistration = inflaterDialogUserRegistration.inflate(R.layout.dialog_user_registration, (ViewGroup) findViewById(R.id.dialog_user_registration_root));			
+		builderDialogUserRegistration.setView(contentDialogUserRegistration);
+		
+		final EditText etFirstname = (EditText) contentDialogUserRegistration.findViewById(R.id.etFirstname);	
+		final EditText etLastname = (EditText) contentDialogUserRegistration.findViewById(R.id.etLastname);	
+		final EditText etMail = (EditText) contentDialogUserRegistration.findViewById(R.id.etMail);	
+		final EditText etUsername = (EditText) contentDialogUserRegistration.findViewById(R.id.etUsername);	
+		final EditText etPassword = (EditText) contentDialogUserRegistration.findViewById(R.id.etPassword);		
+		
+		builderDialogUserRegistration.setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
+			
+			
+           public void onClick(DialogInterface dialog, int id) {
+        	   
+        	   String firstname = etFirstname.getText().toString();
+        	   String lastname = etLastname.getText().toString();
+        	   String mail = etMail.getText().toString();
+        	   String username = etUsername.getText().toString();
+        	   String password = etPassword.getText().toString();
+        	   
+        	   UserBean user = new UserBean()
+        	   .setFirstname(firstname)
+        	   .setLastname(lastname)
+        	   .setMail(mail)
+        	   .setUsername(username)
+        	   .setPassword(password);
+        	   
+        	   registerNewUser(user);
+               
+           }
+	           
+       });
+		
+		builderDialogUserRegistration.setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
+	           
+			public void onClick(DialogInterface dialog, int id) {
+
+				Toast.makeText(getApplicationContext(), R.string.toast_we_would_be_glad, Toast.LENGTH_SHORT).show();
+				
+	        }
+			
+	    });	
+		
+		dialogUserRegistration = builderDialogUserRegistration.create();
+		
+		return dialogUserRegistration;
 	}
 	
 	private void initializeFullScreenMode() {		

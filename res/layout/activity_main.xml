@@ -36,6 +36,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_scan"
                 android:text="@string/scan"
                 android:typeface="monospace" />
             
@@ -45,6 +46,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_manage"
                 android:text="@string/manage"
                 android:typeface="monospace" />
             
@@ -54,6 +56,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_logout"
                 android:text="@string/logout"
                 android:typeface="monospace" />
             

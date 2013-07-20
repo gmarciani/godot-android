@@ -15,8 +15,11 @@ int dimen activity_vertical_margin 0x7f080001
 int drawable godot_logo 0x7f020000
 int drawable ic_launcher 0x7f020001
 int drawable ic_login 0x7f020002
-int drawable ic_register 0x7f020003
-int drawable zxinglib_icon 0x7f020004
+int drawable ic_logout 0x7f020003
+int drawable ic_manage 0x7f020004
+int drawable ic_register 0x7f020005
+int drawable ic_scan 0x7f020006
+int drawable zxinglib_icon 0x7f020007
 int id auto_focus 0x7f060000
 int id button_login 0x7f06000c
 int id button_logout 0x7f060011

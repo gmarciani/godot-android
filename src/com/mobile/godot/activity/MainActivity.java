@@ -408,7 +408,6 @@ public class MainActivity extends Activity {
 		
 		if (loggedUser == null) {
 			this.logout();
-			//loggedUser = this.getCachedUser();
 		}
 				
 		return loggedUser;
@@ -507,29 +506,33 @@ public class MainActivity extends Activity {
 		
 		CarBean car = new CarBean()
 		.setName(carName)
-		.setOwnerUsername(getUser().getUsername())
-		.setDriverUsername(getUser().getUsername());
+		.setOwnerUsername(getUser().getUsername());
 		
 		this.controller.addCar(car);
 		
-		Handler sleepH = new Handler();
+		final String name = carName;
 		
-		sleepH.postDelayed(new Runnable() {
-			
-			@Override
-			public void run() {}
-			
-		}, 1500);
+		final String[] coOwnersList = coOwners.split(",");
 		
-		String[] coOwnersList = coOwners.split(",");
-		
-		LoginBean login = new LoginBean()
+		final LoginBean login = new LoginBean()
 		.setUsername(this.getUser().getUsername())
 		.setPassword(this.getUser().getPassword());
 		
-		for (int count = 0 ; count < coOwnersList.length ; count ++ ) {
-			this.controller.addCoOwner(carName, coOwnersList[count], login);
-		}
+		Handler postH = new Handler();
+		
+		postH.postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				for (int count = 0 ; count < coOwnersList.length ; count ++ ) {
+					controller.addCoOwner(name, coOwnersList[count], login);
+				}
+				
+			}
+			
+		}, 1500);	
+		
 	}
 	
 	private void logout() {		

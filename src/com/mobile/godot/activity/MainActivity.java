@@ -499,7 +499,7 @@ public class MainActivity extends Activity {
 	}
 	
 	private void addNewCarWithCoOwners(String carName, String coOwners) {
-		if (carName == null || carName.isEmpty() || coOwners == null || coOwners.isEmpty()) {
+		if (carName == null || carName.isEmpty()) {
 			Toast.makeText(getApplicationContext(), R.string.toast_invalid_input, Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -510,28 +510,32 @@ public class MainActivity extends Activity {
 		
 		this.controller.addCar(car);
 		
-		final String name = carName;
-		
-		final String[] coOwnersList = coOwners.split(",");
-		
-		final LoginBean login = new LoginBean()
-		.setUsername(this.getUser().getUsername())
-		.setPassword(this.getUser().getPassword());
-		
-		Handler postH = new Handler();
-		
-		postH.postDelayed(new Runnable() {
+		if (!coOwners.isEmpty() && coOwners != null) {
 			
-			@Override
-			public void run() {
+			final String name = carName;
+			
+			final String[] coOwnersList = coOwners.split(",");
+			
+			final LoginBean login = new LoginBean()
+			.setUsername(this.getUser().getUsername())
+			.setPassword(this.getUser().getPassword());
+			
+			Handler postH = new Handler();
+			
+			postH.postDelayed(new Runnable() {
 				
-				for (int count = 0 ; count < coOwnersList.length ; count ++ ) {
-					controller.addCoOwner(name, coOwnersList[count], login);
+				@Override
+				public void run() {
+					
+					for (int count = 0 ; count < coOwnersList.length ; count ++ ) {
+						controller.addCoOwner(name, coOwnersList[count], login);
+					}
+					
 				}
 				
-			}
+			}, 1500);	
 			
-		}, 1500);	
+		}		
 		
 	}
 	

@@ -35,9 +35,9 @@ _ignore
 *.ear
 *.class
 *.pydevproject
-#.project
+.project
 .metadata
-#bin/**
+bin/**
 tmp/**
 tmp/**/*
 *.tmp
@@ -45,8 +45,8 @@ tmp/**/*
 *.swp
 *~.nib
 local.properties
-#.classpath
-#.settings/
+.classpath
+.settings/
 .loadpath
 .externalToolBuilders/
 *.launch
@@ -69,6 +69,6 @@ target/
 *.db
 *.class
 # Directories #
-#/build/
-#/bin/
+/build/
+/bin/
 target/
